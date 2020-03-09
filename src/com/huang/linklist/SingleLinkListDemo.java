@@ -25,10 +25,68 @@ public class SingleLinkListDemo {
         System.out.println("-----------------------------------------------------");
         singleLinkList.delete(4);
         singleLinkList.delete(2);
-        singleLinkList.delete(1);
-        singleLinkList.delete(3);
-        singleLinkList.delete(3);
+//        singleLinkList.delete(1);
+//        singleLinkList.delete(3);
+//        singleLinkList.delete(3);
+
         singleLinkList.list();
+        //测试单链表头节点的个数
+        System.out.println("有效的节点个数：" + getLength(singleLinkList.getHead()));
+
+        //查找倒数第 K 个节点
+        HeroNode res = findLastIndexNode(singleLinkList.getHead(), 1);
+        System.out.println(res);
+
+    }
+
+
+    //要求： 求单链表倒数第 index 个节点
+    //1.编写一个方法，接收head节点。同时接收一个index
+    //2.index 表示是倒数第 index 个节点
+    //3.先把链表从头到尾进行遍历，得到链表的总长度，总的长度 - N = 正向遍历的个数
+
+    /**
+     * @param head  传一个要查询的单链表的头节点
+     * @param index 查倒数第几个的节点
+     * @return
+     */
+    public static HeroNode findLastIndexNode(HeroNode head, int index) {
+        //判断如果链表为空，返回null
+        if (head.next == null) {
+
+        }
+        //第一次遍历得到链表的长度
+        int size = getLength(head);
+        //先做一个 index 的校验
+        if (index <= 0 || index > size) {
+            return null;
+        }
+        //定义一个辅助变量
+        HeroNode cur = head.next;
+        for (int i = 0; i < size - index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+
+
+    /**
+     * 获取单链表的有效节点的个数 ，如果有头节点，不需要统计头节点
+     * @param head 链表的头节点
+     * @return 返回的就是有效节点的个数
+     */
+    public static int getLength(HeroNode head) {
+        if (head.next == null) {
+            return 0;
+        }
+        int length = 0;
+        //定义一个辅助的变量
+        HeroNode cur = head.next; //不统计头节点
+        while (cur != null) {
+            length++;
+            cur = cur.next;
+        }
+        return length;
     }
 }
 
@@ -37,6 +95,10 @@ class SingleLinkList {
     //初始化一个头节点，头节点不要动,不存放具体数据，指向第一个节点
     private HeroNode head = new HeroNode(0, "", "");
 
+    //返回头节点
+    public HeroNode getHead() {
+        return head;
+    }
 
     //（不考虑排序）添加一个节点，需要找到这个链表的最后，把最后节点的next域指向一个新的节点
     public void add(HeroNode heroNode) {
@@ -123,6 +185,7 @@ class SingleLinkList {
             System.out.printf("要删除的%d这个节点不存在！", no);
         }
     }
+
 
     //显示链表
     public void list() {
