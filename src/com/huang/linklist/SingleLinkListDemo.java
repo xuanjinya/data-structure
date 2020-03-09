@@ -11,9 +11,9 @@ public class SingleLinkListDemo {
         //创建一个链表
         SingleLinkList singleLinkList = new SingleLinkList();
         singleLinkList.add(heroNode1);
-        singleLinkList.add(heroNode2);
         singleLinkList.add(heroNode3);
         singleLinkList.add(heroNode4);
+        singleLinkList.add(heroNode2);
         //显示
         singleLinkList.list();
     }
@@ -24,21 +24,35 @@ class SingleLinkList {
     //初始化一个头节点，头节点不要动,不存放具体数据，指向第一个节点
     private HeroNode head = new HeroNode(0, "", "");
 
+
     //（不考虑排序）添加一个节点，需要找到这个链表的最后，把最后节点的next域指向一个新的节点
     public void add(HeroNode heroNode) {
         //因为head节点不能动，因此我们需要一个遍历辅助temp
         HeroNode temp = head;
+        boolean flag = false;
         //遍历链表，找到最后
         while (true) {
-            //找到链表的最后
-            if (temp.next == null) {
+            if (temp.next == null) { //说明temp已经在链表的最后
                 break;
             }
-            //如果没有找到
+            if (temp.next.no > heroNode.no) { //已经找到了
+                break;
+            } else if (temp.next.no == heroNode.no) { //说明添加的编号已经存在
+                flag = true; //标志编号已经存在
+                break;
+            }
+            //如果都不符合，后移，遍历当前链表
             temp = temp.next;
         }
-        //当 while 退出循环的时候，temp 就指向了最后
-        temp.next = heroNode;
+        //判断flag的值
+        if (flag) {
+            //说明编号已经存在，不能添加
+            System.out.printf("当前的编号%d已经存在！\n", heroNode.no);
+        } else {
+            //添加到temp的后面
+            heroNode.next = temp.next;
+            temp.next = heroNode;
+        }
     }
 
     //显示链表
@@ -66,9 +80,9 @@ class SingleLinkList {
 
 //定义一个heroNode ，每一个HeroNode 对象就是一个节点
 class HeroNode {
-    private int no;
+    public int no;
     public String name;
-    private String nickname;
+    public String nickname;
     public HeroNode next; //指向下一个节点
 
     //构造器
@@ -76,6 +90,22 @@ class HeroNode {
         this.no = hNo;
         this.name = hName;
         this.nickname = hNickName;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public HeroNode getNext() {
+        return next;
     }
 
     @Override
