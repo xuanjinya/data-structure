@@ -23,8 +23,8 @@ public class SingleLinkListDemo {
         singleLinkList.update(newHeroNode);
         singleLinkList.list();
         System.out.println("-----------------------------------------------------");
-        singleLinkList.delete(4);
-        singleLinkList.delete(2);
+//        singleLinkList.delete(4);
+//        singleLinkList.delete(2);
 //        singleLinkList.delete(1);
 //        singleLinkList.delete(3);
 //        singleLinkList.delete(3);
@@ -34,9 +34,32 @@ public class SingleLinkListDemo {
         System.out.println("有效的节点个数：" + getLength(singleLinkList.getHead()));
 
         //查找倒数第 K 个节点
-        HeroNode res = findLastIndexNode(singleLinkList.getHead(), 1);
-        System.out.println(res);
+//        HeroNode res = findLastIndexNode(singleLinkList.getHead(), 1);
+//        System.out.println(res);
+        System.out.println("-----------------------------------------------------");
+        reverseHead(singleLinkList.getHead());
+        singleLinkList.list();
 
+    }
+
+    //要求：将单链表进行反转
+    public static void reverseHead(HeroNode head) {
+        //判断如果链表为空,或则只有一个节点，直接返回
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+        //定义一个辅助指针，帮助遍历原来的单链表
+        HeroNode cur = head.next;
+        HeroNode next = null; //指向当前节点【cur】的下一个节点
+        HeroNode reverseHead = new HeroNode(0, "", "");
+        //遍历原来的链表，将其取出，并放在新的链表的 reverseHead 的最前端
+        while (cur != null) {
+            next = cur.next; //先暂时保存当前节点的下一个节点，因为后面需要使用
+            cur.next = reverseHead.next; //将cur的下一个节点指向链表的 reverseHead.next;
+            reverseHead.next = cur; //将 cur 连接到新的链表上
+            cur = next;
+        }
+        head.next = reverseHead.next;
     }
 
 
@@ -53,7 +76,7 @@ public class SingleLinkListDemo {
     public static HeroNode findLastIndexNode(HeroNode head, int index) {
         //判断如果链表为空，返回null
         if (head.next == null) {
-
+            return null;
         }
         //第一次遍历得到链表的长度
         int size = getLength(head);
@@ -72,6 +95,7 @@ public class SingleLinkListDemo {
 
     /**
      * 获取单链表的有效节点的个数 ，如果有头节点，不需要统计头节点
+     *
      * @param head 链表的头节点
      * @return 返回的就是有效节点的个数
      */
