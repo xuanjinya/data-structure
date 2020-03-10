@@ -55,15 +55,26 @@ class DoubleLinkedList {
     //添加一个双向链表的最后
     public void add(HeroNode2 heroNode2) {
         HeroNode2 temp = head;
+        boolean flag = false;
         while (true) {
             if (temp.next == null) {
+                break;
+            }
+            if (temp.next.no > heroNode2.no) {
+                flag = true;
                 break;
             }
             temp = temp.next;
         }
         //形成一个双向链表
-        temp.next = heroNode2;
-        heroNode2.pre = temp;
+        if (flag) {
+            heroNode2.next = temp.next;
+            temp.next.pre = heroNode2;
+            temp.next = heroNode2;
+        } else {
+            temp.next = heroNode2;
+            heroNode2.pre = temp;
+        }
     }
 
     public void update(HeroNode2 heroNode2) {
