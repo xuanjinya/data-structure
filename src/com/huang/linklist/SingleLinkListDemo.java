@@ -1,5 +1,7 @@
 package com.huang.linklist;
 
+import java.util.Stack;
+
 public class SingleLinkListDemo {
     public static void main(String[] args) {
         //进行测试。创建节点
@@ -39,6 +41,27 @@ public class SingleLinkListDemo {
         System.out.println("-----------------------------------------------------");
         reverseHead(singleLinkList.getHead());
         singleLinkList.list();
+        System.out.println("-----------------------------------------------------");
+        reversePrint(singleLinkList.getHead());
+
+    }
+
+    //要求：将链表的节点进行逆序打印 可以利用栈的数据结构
+    public static void reversePrint(HeroNode head) {
+        if (head.next == null) {
+            return; //空链表，不能打印
+        }
+        //创建一个栈，将各个节点压入栈中
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode cur = head.next;
+        //将链表的所有节点压入
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.next;
+        }
+        while (stack.size() > 0) {
+            System.out.println(stack.pop());
+        }
 
     }
 
